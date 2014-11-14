@@ -1,0 +1,48 @@
+extends layout
+
+block header
+	title PostList
+block content
+	a.ui.button(ms-click="javascript:void(0)",id="subPost") 提交工单
+	.ui.modal(ms-controller="postNew")
+		i.close.icon
+		.header 提交新工单
+		.content
+			.ui.form.segment(ms-submit="submit")
+				.field
+					.ui.left.labeled.icon.input
+						input(type='text',placeholder="请输入邮箱",ms-duplex="o.email")
+						i.user.icon
+				.field
+					.ui.left.labeled.icon.input
+						input(type='text',placeholder="请输入问题",ms-duplex="o.title")
+						i.edit.icon
+				.field
+					textarea(placeholder="详细说明",ms-duplex="o.content")
+		.actions
+			.ui.button 取消
+			.ui.button(ms-click="submit") 提交
+	h1 Post List
+	table.ui.table.segment.collapsing
+		thead
+			tr
+				th 问题
+				th 状态
+				th 提交时间
+				th 操作
+		tbody(ms-controller="posts")
+			tr(ms-repeat="posts")
+				td 
+					a(href="javascript:void(0)") {{el.title}}
+				td {{el.status}}
+				td {{el.subdate | date('yyyy-MM-dd HH:mm:ss')}}
+				td 
+					.ui.tiny.buttons
+						.ui.button.blue 编辑
+						.or
+						a.ui.button.red(href="javascript:void(0)",ms-click="remove($remove,el)") 删除
+
+block footer
+	script.
+		posts = !{JSON.stringify(postlist)}
+	script(src="/javascripts/home.js")

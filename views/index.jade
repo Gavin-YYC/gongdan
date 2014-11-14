@@ -1,0 +1,34 @@
+extends layout
+
+block header
+	title 客户登陆 | 工单系统
+block content
+	.ui.grid
+		.three.wide.column
+		.ten.wide.column.ui.segment(style="margin-top:150px;")
+			h1.center 客户登陆
+			.ui.two.column.middle.aligned.relaxed.grid.basic.segment
+				.column(ms-controller="userLogin")
+					.ui.form.segment(ms-submit="submit")
+						.field
+							label 用户名
+							.ui.left.labeld.icon.input
+								input(type="text",palceholder="用户名",ms-duplex="o.username",name="username")
+								i.user.icon
+								.ui.corner.label
+									i.asterisk.icon
+						.field
+							label 密码	
+							.ui.left.labeld.icon.input
+								input(type="password",palceholder="密码",ms-duplex="o.password",name="password")
+								i.lock.icon
+								.ui.corner.label
+									i.asterisk.icon
+						a.ui.blue.submit.button(ms-click='submit') 立即登陆
+				.ui.vertical.divider or
+				.center.aligned.column
+					a(href="/register").huge.green.ui.labeled.icon.button
+						i.signup.icon 
+						span 注册
+block footer
+	script(src="/javascripts/home.js")
