@@ -5,12 +5,10 @@ var router = express.Router();
 function renderStatus(status) {
   switch (status) {
     case 0:
-      return "未处理";
+      return "等待处理";
     case 1:
-      return "处理中";
+      return "已回复";
     case 2:
-      return "已解决";
-    case 3:
       return "已关闭";
     default:
       return "未知状态";
@@ -76,6 +74,17 @@ router.get('/postlist', function(req, res) {
     });
 });
 
+/* 查看单个工单 */
+router.get('/postlist/:_id',function(req,res){
+    var db = req.db;
+    var collection = db.get('post');
+    var o = req.params._id;
+    collection.find({_id:o},{},function(err,doc){
+        res.render('postdetail',{
+            "postdetail":doc
+        })
+    })
+});
 
 /* 增加工单 */
 router.post('/postNew', function(req, res) {

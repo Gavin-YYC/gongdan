@@ -1,0 +1,37 @@
+extends layout
+
+block header
+	title 工单详情
+block content
+	.ui.two.column.grid
+		.column
+			.ui.piled.blue.segment(ms-controller="postdetail")
+				h2.ui.header
+					each post,i in postdetail
+						a #{post.title}
+				.ui.comments
+					.comment(ms-repeat="postdetail")
+						a.avatar
+							img(src="http://www.semantic-ui.com.cn/images/demo/avatar.jpg")
+						.content
+							a.author 花印
+							.metadata
+								.date {{el.subdate | date('yyyy-MM-dd HH:mm:ss')}}
+							.text
+								p {{el.content}}
+				.ui.reply.form
+					.field
+						textarea
+					.ui.teal.buttons
+						.ui.button 已回复
+						.ui.teal.floating.dropdown.icon.button
+							i.dropdown.icon
+							.menu
+								.item 关闭此工单
+					.ui.fluid.blue.labeled.submit.icon.button
+						i.icon.edit
+						回复
+block footer
+	script.
+		postdetail = !{JSON.stringify(postdetail)};
+	script(src="/javascripts/home.js")

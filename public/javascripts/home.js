@@ -64,3 +64,7 @@ avalon.define("posts",function(vm){
 		})
 	};
 });
+
+avalon.define("postdetail",function(vm){
+	var postdetail = postdetail;
+});

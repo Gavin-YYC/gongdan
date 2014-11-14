@@ -33,7 +33,7 @@ block content
 		tbody(ms-controller="posts")
 			tr(ms-repeat="posts")
 				td 
-					a(href="javascript:void(0)") {{el.title}}
+					a(ms-href="/postlist/{{el._id}}") {{el.title}}
 				td {{el.status}}
 				td {{el.subdate | date('yyyy-MM-dd HH:mm:ss')}}
 				td 
