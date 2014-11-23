@@ -6,11 +6,9 @@ block content
 	.ui.two.column.grid
 		.column
 			.ui.piled.blue.segment(ms-controller="postdetail")
-				h2.ui.header
-					each post,i in postdetail
-						a #{post.title}
 				.ui.comments
 					.comment(ms-repeat="postdetail")
+						h3.ui.header {{el.title}}
 						a.avatar
 							img(src="http://www.semantic-ui.com.cn/images/demo/avatar.jpg")
 						.content
@@ -19,19 +17,36 @@ block content
 								.date {{el.subdate | date('yyyy-MM-dd HH:mm:ss')}}
 							.text
 								p {{el.content}}
-				.ui.reply.form
+
+				.ui.divider
+				.ui.comments
+					.comment(ms-repeat="postCommit")
+						h3.ui.header 回复:
+						a.avatar
+							img(src="http://www.semantic-ui.com.cn/images/demo/avatar.jpg")
+						.content
+							a.author 花印
+							.metadata
+								.date {{el.subdate | date('yyyy-MM-dd HH:mm:ss')}}
+							.text
+								p {{el.content}}
+
+				.ui.reply.form(ms-repeat="postdetail")
 					.field
-						textarea
+						textarea(ms-duplex="o.content")
 					.ui.teal.buttons
-						.ui.button 已回复
+						.ui.button 更新工单
 						.ui.teal.floating.dropdown.icon.button
 							i.dropdown.icon
 							.menu
-								.item 关闭此工单
-					.ui.fluid.blue.labeled.submit.icon.button
+								.item 提交为已解决
+								.item 关闭工单
+					.ui.fluid.blue.labeled.submit.icon.button(ms-click="submit(el)")
 						i.icon.edit
-						回复
+						span 回复
 block footer
 	script.
 		postdetail = !{JSON.stringify(postdetail)};
+	script.
+		postCommit = !{JSON.stringify(postCommit)};
 	script(src="/javascripts/home.js")

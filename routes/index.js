@@ -36,15 +36,16 @@ router.post('/userLogin',function(req,res){
             req.session.uid = doc[0].id;
             req.session.power = doc[0].power
             if (doc[0].power == "admin") {
+                console.log(req.session.username);
                 res.redirect('/postlist');
             }else{
+                console.log(req.session.username);
                 res.redirect('/postlist');
             };
         }else{
             res.send("该用户已经存在！");
         };
     })
-
 });
 
 /* 添加客户/客服 */
@@ -78,10 +79,14 @@ router.get('/postlist', function(req, res) {
 router.get('/postlist/:_id',function(req,res){
     var db = req.db;
     var collection = db.get('post');
+    var collection_2 = db.get('commit');
     var o = req.params._id;
     collection.find({_id:o},{},function(err,doc){
-        res.render('postdetail',{
-            "postdetail":doc
+        collection_2.find({id:o},{},function(err_2,doc_2){
+            res.render('postdetail',{
+                "postdetail":doc,
+                "postCommit":doc_2
+            })
         })
     })
 });
@@ -105,8 +110,7 @@ router.post('/postNew', function(req, res) {
     }, function (err, doc) {
         if (err) {
             res.send("There was a problem adding the information to the database.");
-        }
-        else {
+        }else{
             res.send(doc);
         }
     });
@@ -120,12 +124,27 @@ router.post('/postDelete',function(req,res){
     collection.remove({_id:o._id},{},function(err,doc){
         if(err){
             res.send("There was a problem deleting the information to the database.");
-        }
-        else{
+        }else{
             res.send(doc);
         }
     });
 });
 
+/* 回复工单 */
+router.post('/postCommit',function(req,res){
+    var db = req.db;
+    var collection = db.get('commit');
+    var o = req.body;
+    o.subdate = new Date();
+    console.log(o);
+    collection.insert(o,function(err,docs){
+        if(err){
+            res.send("There was a problem deleting the information to the database.");
+        }
+        else{
+            res.send(docs);
+        }
+    })
+});
 
 module.exports = router;

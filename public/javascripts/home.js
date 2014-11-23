@@ -58,13 +58,22 @@ avalon.define("postNew",function(vm){
 /* 删除工单 */
 avalon.define("posts",function(vm){
 	var posts = posts;
-	vm.remove = function(rm,o){
-		$.post('/postDelete',o,function(){
+	vm.remove = function(rm,el){
+		$.post('/postDelete',el,function(){
 			console.log("delete suc");
 		})
 	};
-});
+}); 
 
+/* 回复工单 */
 avalon.define("postdetail",function(vm){
-	var postdetail = postdetail;
+	vm.o = {
+		content:""
+	};
+	vm.submit = function (el){
+		o = vm.o.$model;
+		$.post('/postCommit',{id:el._id,content:o.content},function(){
+			console.log("11");
+		})
+	}
 });
