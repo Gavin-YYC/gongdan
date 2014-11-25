@@ -30,21 +30,12 @@ router.post('/userLogin',function(req,res){
     var db = req.db;
     var collection = db.get('users');
     var o = req.body;
-    collection.find({username:o.username,password:o.password},function(err,doc){
-        if (doc.length>0) {
-            req.session.username = username;
-            req.session.uid = doc[0].id;
-            req.session.power = doc[0].power
-            if (doc[0].power == "admin") {
-                console.log(req.session.username);
-                res.redirect('/postlist');
-            }else{
-                console.log(req.session.username);
-                res.redirect('/postlist');
-            };
-        }else{
-            res.send("该用户已经存在！");
-        };
+    collection.findOne({username:o.username,password:o.password},{},function(err,docs){
+        if (err){
+            console.log("登陆失败");
+            return;
+        }
+        console.log("登陆成功！");
     })
 });
 
